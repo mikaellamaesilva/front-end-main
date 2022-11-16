@@ -108,7 +108,7 @@ el-card(shadow='never' :body-style='{padding:0}')
 
           el-form-item(label='UPLive ID' prop="id")
             .w-100(v-if="mode !== 'view'")
-              el-input(v-model='modelValue.id' @keypress="$store.getters.isNumber($event)" @input="emitValue({ id: $event })" name="id" required)
+              el-input(v-model='modelValue.id' @input="emitValue({ id: $event })" name="id" required)
             .w-100(v-else) {{ modelValue.id }}
 
           el-form-item(label='Instagram account URL' prop="instagramAccount")
@@ -135,7 +135,7 @@ el-card(shadow='never' :body-style='{padding:0}')
             .w-100(v-else) {{ modelValue.email }}
 
           el-form-item(label='Old password' v-if='$route.query.action')
-            el-input(v-model='modelValue.oldPassword' @input="emitValue({ oldPassword: $event })" name="oldPassword" type='password'  show-password :required='true')
+            el-input(v-model='modelValue.oldPassword' @input="emitValue({ oldPassword: $event })" name="oldPassword" type='password'  show-password)
             
           el-form-item(:label=`$route.query.action? 'New password': 'Password'` v-if="!isForPending && mode !== 'view'" prop="password")
             el-input(v-model='modelValue.password' @input="emitValue({ password: $event })" name="password" type='password'  show-password :required='mode == "create"')

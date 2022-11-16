@@ -162,6 +162,7 @@ export default {
       }
     } catch (error) {
       console.log(error);
+      next({ name: 'PageNotFound' })
     }
   },
 };

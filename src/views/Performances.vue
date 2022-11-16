@@ -19,10 +19,10 @@ div
             el-table-column(prop='hostId' label='UPLive ID' sortable)
             el-table-column(label='Hours' width="100px")
              template(#default='scope')
-              el-input(type='number' @keypress="$store.getters.isNumber($event)" v-model="scope.row.hours")
+              el-input( @keypress="$store.getters.isNumber($event)" v-model="scope.row.hours")
             el-table-column(label='uCoins' width="100px")
              template(#default='scope')
-              el-input(type='number' @keypress="$store.getters.isNumber($event)" v-model="scope.row.ucoins")
+              el-input( @keypress="$store.getters.isNumber($event)" v-model="scope.row.ucoins")
           .d-flex.justify-content-end.mt-5
             el-button(type='primary' @click="submit") 
               i.bi.bi-plus-lg.me-2

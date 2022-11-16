@@ -82,12 +82,12 @@ div
           .p-5
             div(v-if='adminDashboard.leaderboard.length > 0')
               el-table.w-100.mt-3(:data="adminDashboard.leaderboard")
-                el-table-column(width="70" label='Rank')
+                el-table-column(width="70" label='Rank' type='index')
                   template(#default='scope')
-                    span.text-center.d-block.my-2(v-if="scope.row.rank == 1" style="font-size: 1.75rem") 🥇
-                    span.text-center.d-block.my-2(v-else-if="scope.row.rank == 2" style="font-size: 1.75rem") 🥈
-                    span.text-center.d-block.my-2(v-else-if="scope.row.rank == 3" style="font-size: 1.75rem") 🥉
-                    span.text-center.d-block.my-2(v-else) {{ scope.row.rank }}
+                      span.text-center.d-block.my-2(v-if="scope.$index + 1 == 1" style="font-size: 1.75rem") 🥇
+                      span.text-center.d-block.my-2(v-else-if="scope.$index + 1 == 2" style="font-size: 1.75rem") 🥈
+                      span.text-center.d-block.my-2(v-else-if="scope.$index + 1  == 3" style="font-size: 1.75rem") 🥉
+                      span.text-center.d-block.my-2(v-else style="font-size: 1rem") {{ scope.$index + 1 }}
                 el-table-column(label='Name')
                   template(#default='scope')
                     .d-flex.align-items-center
@@ -391,9 +391,9 @@ export default {
       }
 
       next((component) => {
-        component.adminDashboard.hosts = hosts.data.result;
+        component.adminDashboard.hosts = hosts.data.result.slice(0,5);
         component.adminDashboard.performances = performances.data.result;
-        component.adminDashboard.leaderboard = leaderboard.data.result;
+        component.adminDashboard.leaderboard = leaderboard.data.result.slice(0,5);
         component.adminDashboard.series = series;
       });
     } else {

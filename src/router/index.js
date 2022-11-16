@@ -43,8 +43,10 @@ import Performances from "../views/Performances.vue";
 
 import EmailVerified from "../views/EmailVerified.vue";
 import NProgress from "nprogress";
+import PageNotFound from "../views/PageNotFound.vue";
 
 const routes = [
+  { path: "*", name: "PageNotFound",component: PageNotFound },
   {
     path: "/login-host",
     name: "Login",
