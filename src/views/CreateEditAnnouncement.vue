@@ -107,7 +107,10 @@ export default {
             JSON.stringify({
               message: `An announcement has been posted by ${this.$store.state.userDetails.fullNameReversed}.`,
               // eslint-disable-next-line prettier/prettier
-              date: new Date().toLocaleString("en-CA",this.$store.state.dateTimeOptions),
+              date: new Date().toLocaleString(
+                "en-CA",
+                this.$store.state.dateTimeOptions
+              ),
               showToHost: true,
               avatarImageUrl: this.$store.state.userDetails.avatarImageUrl,
             })
@@ -139,7 +142,10 @@ export default {
             JSON.stringify({
               message: `An announcement has been updated by ${this.$store.state.userDetails.fullNameReversed}.`,
               // eslint-disable-next-line prettier/prettier
-              date: new Date().toLocaleString("en-CA",this.$store.state.dateTimeOptions),
+              date: new Date().toLocaleString(
+                "en-CA",
+                this.$store.state.dateTimeOptions
+              ),
               showToHost: true,
               avatarImageUrl: this.$store.state.userDetails.avatarImageUrl,
             })
@@ -171,7 +177,7 @@ export default {
       }
     } catch (error) {
       console.log(error);
-      next({ name: 'PageNotFound' })
+      next({ name: "PageNotFound" });
     }
   },
 };

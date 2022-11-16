@@ -9,7 +9,6 @@ div.vh-100
 <script>
 export default {
   name: "PageNotFound",
-  async created() {
-  },
+  async created() {},
 };
 </script>

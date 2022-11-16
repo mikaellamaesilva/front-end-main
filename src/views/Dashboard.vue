@@ -391,9 +391,12 @@ export default {
       }
 
       next((component) => {
-        component.adminDashboard.hosts = hosts.data.result.slice(0,5);
+        component.adminDashboard.hosts = hosts.data.result.slice(0, 5);
         component.adminDashboard.performances = performances.data.result;
-        component.adminDashboard.leaderboard = leaderboard.data.result.slice(0,5);
+        component.adminDashboard.leaderboard = leaderboard.data.result.slice(
+          0,
+          5
+        );
         component.adminDashboard.series = series;
       });
     } else {
