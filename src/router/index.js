@@ -46,7 +46,7 @@ import NProgress from "nprogress";
 import PageNotFound from "../views/PageNotFound.vue";
 
 const routes = [
-  { path: "*", name: "PageNotFound",component: PageNotFound },
+  { path: "/:catchAll(.*)", name: "PageNotFound",component: PageNotFound },
   {
     path: "/login-host",
     name: "Login",
