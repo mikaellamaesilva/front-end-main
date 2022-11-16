@@ -46,6 +46,8 @@ apiClient.interceptors.response.use(
           router.replace({ name: "Login" });
         }
       }
+    } else if (error.response.data.status == 404) {
+      router.replace({ name: "PageNotFound" });
     }
     // eslint-disable-next-line no-undef
     ElNotification({
