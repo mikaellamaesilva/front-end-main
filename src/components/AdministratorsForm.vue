@@ -76,7 +76,7 @@ el-card(shadow='never' :body-style='{padding:0}')
         .w-100(v-else) {{ modelValue.email }}
 
       el-form-item(label='Old password' v-if='$route.query.action')
-        el-input(v-model='modelValue.oldPassword' @input="emitValue({ oldPassword: $event })" name="oldPassword" type='password'  show-password :required='true')
+        el-input(v-model='modelValue.oldPassword' @input="emitValue({ oldPassword: $event })" name="oldPassword" type='password'  show-password)
         
       el-form-item(:label=`$route.query.action? 'New password': 'Password'` v-if="mode !== 'view'")
         el-input(v-model='modelValue.password' @input="emitValue({ password: $event })" name="password" type='password'  show-password :required='mode == "create"')

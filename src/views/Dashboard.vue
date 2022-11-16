@@ -427,9 +427,12 @@ export default {
       next((component) => {
         component.hostDashboard.currentMonthPerformance =
           currentMonthPerformance.data.result;
-        component.hostDashboard.announcements = announcements.data.result;
+        component.hostDashboard.announcements = announcements.data.result.slice(
+          0,
+          5
+        );
         component.hostDashboard.calendarActivities =
-          calendarActivities.data.result;
+          calendarActivities.data.result.slice(0, 5);
         component.hostDashboard.myData = myData.data.result;
       });
     }
