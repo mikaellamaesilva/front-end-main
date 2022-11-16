@@ -46,7 +46,17 @@ import NProgress from "nprogress";
 import PageNotFound from "../views/PageNotFound.vue";
 
 const routes = [
-  { path: "/not-found", name: "PageNotFound", component: PageNotFound },
+  {
+    path: "/not-found",
+    name: "PageNotFound",
+    component: PageNotFound,
+    meta: {
+      permissions: {
+        requireAuth: true,
+        allowedRoles: ["admin", "superadmin", "null"],
+      },
+    },
+  },
   {
     path: "/login-host",
     name: "Login",
@@ -408,21 +418,31 @@ const router = createRouter({
 router.beforeEach((to) => {
   NProgress.start();
   // if route requires authentication and user is not authenticated
-  if (to.meta.permissions?.requireAuth && !store.state.userDetails.isAuthenticated) {
-
+  if (
+    to.meta.permissions?.requireAuth &&
+    !store.state.userDetails.isAuthenticated
+  ) {
     return { name: "Login" };
   }
 
   // if route does not require authentication and user is authenticated
-  if (!to.meta.permissions?.requireAuth && store.state.userDetails.isAuthenticated) {
-
+  if (
+    !to.meta.permissions?.requireAuth &&
+    store.state.userDetails.isAuthenticated
+  ) {
     return { name: "Announcements" };
   }
 
   // if route requires roles and authentication and user is authenticated
-  if (to.meta.permissions?.requireAuth && store.state.userDetails.isAuthenticated) {
-    if (!to.meta.permissions.allowedRoles.includes(store.state.userDetails.adminLevel)) {
-
+  if (
+    to.meta.permissions?.requireAuth &&
+    store.state.userDetails.isAuthenticated
+  ) {
+    if (
+      !to.meta.permissions.allowedRoles.includes(
+        store.state.userDetails.adminLevel
+      )
+    ) {
       return { name: "Announcements" };
     }
   }
