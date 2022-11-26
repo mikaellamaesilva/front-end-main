@@ -1,24 +1,15 @@
 <template lang="pug">
 div
-    .row 
-        .col.col-12.col-md-6.mt-3
-            el-card.p-4(:body-style='{padding:0}')
-                .d-flex.align-items-center 
-                i.bi.bi-person-hearts.fs-1.me-4(style="color:#1070c9")
-                div
-                    span.fw-bold.text-secondary.text-small SUGGESTED DAILY STREAM HOURS
-                    span.h3.d-block.fw-bolder {{ hostDashboard.suggestedHours || 0 }}
-            .col.col-12.col-md-6.mt-3
-            el-card.p-4(:body-style='{padding:0}')
-                .d-flex.align-items-center 
-                    i.bi.bi-currency-dollar.fs-1.me-4(style="color:#1070c9")
-                    div
-                        span.fw-bold.text-secondary.text-small ESTIMATED TOTAL PAYOUT (USD)
-                        span.h3.d-block.fw-bolder {{ hostDashboard.payout.toFixed(2) }}
+    el-card.p-4(:body-style='{padding:0}')
+        .d-flex.align-items-center 
+            i.bi.bi-currency-dollar.fs-1.me-4(style="color:#1070c9")
+            div
+                span.fw-bold.text-secondary.text-small ESTIMATED TOTAL PAYOUT (USD)
+                span.h3.d-block.fw-bolder {{ hostDashboard.payout.toFixed(2) }}
 
     el-card.mt-5(:body-style='{padding:0}')
         div.px-5.py-4.common-gradient
-            .fs-4.fw-bold Stream Progress
+            .fs-4.fw-bold Stream Progress for this Month
         .p-5
             div(v-if='hostDashboard.currentMonthPerformance.length > 0')
                 div Stream Hours
@@ -45,6 +36,12 @@ div
 import { apiClient } from "@/services/MainService";
 export default {
   name: "StreamProgress",
+  props: {
+    hostId: {
+      type: String,
+      required: true,
+    },
+  },
   data() {
     return {
       adminDashboard: {
@@ -96,8 +93,38 @@ export default {
       return false;
     },
   },
-  created() {
-    this.$nextTick(function () {
+  async created() {
+    this.$nextTick(async function () {
+      const hostId = this.hostId;
+      var date2 = new Date(),
+        y2 = date2.getFullYear(),
+        m2 = date2.getMonth();
+      var firstDay2 = new Date(y2, m2, 1);
+      var lastDay2 = new Date(y2, m2 + 1, 0);
+
+      const [
+        currentMonthPerformance,
+        announcements,
+        calendarActivities,
+        myData,
+      ] = await Promise.all([
+        apiClient.get(
+          `/performances?hostId=${hostId}&startDate=${firstDay2.toLocaleDateString(
+            "en-CA"
+          )}&endDate=${lastDay2.toLocaleDateString("en-CA")}`
+        ),
+        apiClient.get("/announcements"),
+        apiClient.get("/calendar-activities"),
+        apiClient.get(`/hosts/${hostId}`),
+      ]);
+      console.log(hostId, currentMonthPerformance);
+      this.hostDashboard.currentMonthPerformance =
+        currentMonthPerformance.data.result;
+      this.hostDashboard.announcements = announcements.data.result.slice(0, 5);
+      this.hostDashboard.calendarActivities =
+        calendarActivities.data.result.slice(0, 5);
+      this.hostDashboard.myData = myData.data.result;
+
       // calculate suggestedHours
       var date = new Date(),
         y = date.getFullYear(),
@@ -190,37 +217,35 @@ export default {
   },
   // eslint-disable-next-line no-unused-vars
   async beforeRouteEnter(routeTo, routeFrom, next) {
-    const hostId = routeTo.params.id;
-
-    var date2 = new Date(),
-      y2 = date2.getFullYear(),
-      m2 = date2.getMonth();
-    var firstDay2 = new Date(y2, m2, 1);
-    var lastDay2 = new Date(y2, m2 + 1, 0);
-
-    const [currentMonthPerformance, announcements, calendarActivities, myData] =
-      await Promise.all([
-        apiClient.get(
-          `/performances?hostId=${hostId}&startDate=${firstDay2.toLocaleDateString(
-            "en-CA"
-          )}&endDate=${lastDay2.toLocaleDateString("en-CA")}`
-        ),
-        apiClient.get("/announcements"),
-        apiClient.get("/calendar-activities"),
-        apiClient.get(`/hosts/${hostId}`),
-      ]);
-
-    next((component) => {
-      component.hostDashboard.currentMonthPerformance =
-        currentMonthPerformance.data.result;
-      component.hostDashboard.announcements = announcements.data.result.slice(
-        0,
-        5
-      );
-      component.hostDashboard.calendarActivities =
-        calendarActivities.data.result.slice(0, 5);
-      component.hostDashboard.myData = myData.data.result;
-    });
+    // const hostId = routeTo.params.id;
+    // var date2 = new Date(),
+    //   y2 = date2.getFullYear(),
+    //   m2 = date2.getMonth();
+    // var firstDay2 = new Date(y2, m2, 1);
+    // var lastDay2 = new Date(y2, m2 + 1, 0);
+    // const [currentMonthPerformance, announcements, calendarActivities, myData] =
+    //   await Promise.all([
+    //     apiClient.get(
+    //       `/performances?hostId=${hostId}&startDate=${firstDay2.toLocaleDateString(
+    //         "en-CA"
+    //       )}&endDate=${lastDay2.toLocaleDateString("en-CA")}`
+    //     ),
+    //     apiClient.get("/announcements"),
+    //     apiClient.get("/calendar-activities"),
+    //     apiClient.get(`/hosts/${hostId}`),
+    //   ]);
+    // console.log(hostId, currentMonthPerformance);
+    // next((component) => {
+    //   component.hostDashboard.currentMonthPerformance =
+    //     currentMonthPerformance.data.result;
+    //   component.hostDashboard.announcements = announcements.data.result.slice(
+    //     0,
+    //     5
+    //   );
+    //   component.hostDashboard.calendarActivities =
+    //     calendarActivities.data.result.slice(0, 5);
+    //   component.hostDashboard.myData = myData.data.result;
+    // });
   },
 };
 </script>

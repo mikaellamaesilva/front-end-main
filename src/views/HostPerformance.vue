@@ -27,7 +27,7 @@ div
           span.fw-light.text-small.text-secondary Date recruited: {{ new Date(host.recruitmentDate).toLocaleString('en-CA', $store.state.dateOptions)  }}
     
     .mt-5 
-      stream-progress
+      stream-progress(v-if='host.id' :host-id="host.id")
     
     div.mt-5(v-if='performances.length > 0')
       el-card(:body-style='{padding:0}' v-if="aggregated" v-loading="isLoading")
