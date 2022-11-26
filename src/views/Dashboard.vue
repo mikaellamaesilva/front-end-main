@@ -11,7 +11,7 @@ div
             i.bi.bi-people.fs-1.me-4(style="color:#1070c9")
             div
               span.fw-bold.text-secondary.text-small HOSTS
-              span.h3.d-block.fw-bolder {{ adminDashboard.hosts.length }}
+              span.h3.d-block.fw-bolder {{ adminDashboard.hostCount }}
       .col.col-12.col-md-3.mt-3
         el-card.p-4(:body-style='{padding:0}')
           .d-flex.align-items-center 
@@ -185,6 +185,7 @@ export default {
   data() {
     return {
       adminDashboard: {
+        hostCount: 0,
         hosts: [],
         performances: [],
         leaderboard: [],
@@ -391,6 +392,7 @@ export default {
       }
 
       next((component) => {
+        component.adminDashboard.hostCount = hosts?.data?.result?.length || 0;
         component.adminDashboard.hosts = hosts.data.result.slice(0, 5);
         component.adminDashboard.performances = performances.data.result;
         component.adminDashboard.leaderboard = leaderboard.data.result.slice(
