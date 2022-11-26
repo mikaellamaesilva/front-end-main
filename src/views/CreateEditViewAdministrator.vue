@@ -60,11 +60,11 @@ export default {
         return false;
       }
 
-      if (this.form.password) {
+      if (this.form?.password) {
         if (
-          !this.form.password.trim() ||
-          !this.form.confirmPassword.trim() ||
-          !this.form.oldPassword.trim()
+          !this.form?.password?.trim() ||
+          !this.form?.confirmPassword?.trim() ||
+          !this.form?.oldPassword?.trim()
         ) {
           // eslint-disable-next-line no-undef
           ElNotification({
