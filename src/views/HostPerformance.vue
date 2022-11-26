@@ -25,6 +25,10 @@ div
           span.fw-light.text-small.text-secondary UPLive ID: {{  host.id }}
           br
           span.fw-light.text-small.text-secondary Date recruited: {{ new Date(host.recruitmentDate).toLocaleString('en-CA', $store.state.dateOptions)  }}
+    
+    .mt-5 
+      stream-progress
+    
     div.mt-5(v-if='performances.length > 0')
       el-card(:body-style='{padding:0}' v-if="aggregated" v-loading="isLoading")
         div.px-5.py-4.common-gradient
@@ -129,10 +133,14 @@ div
 
 <script>
 import { apiClient } from "@/services/MainService";
+import StreamProgress from "@/components/StreamProgress.vue";
 import store from "@/store/index";
 import router from "@/router/index";
 export default {
   name: "HostPerformance",
+  components: {
+    StreamProgress,
+  },
   data() {
     return {
       exportDate: "",
