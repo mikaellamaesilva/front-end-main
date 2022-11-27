@@ -72,40 +72,11 @@ export default {
         return false;
       }
 
-      /*
       if (this.form?.password) {
         if (
           !this.form?.password?.trim() ||
           !this.form?.confirmPassword?.trim() ||
           !this.form?.oldPassword?.trim()
-        ) {
-          // eslint-disable-next-line no-undef
-          ElNotification({
-            title: "Notification",
-            message:
-              "You are required to provide your old password, new password, and confirmed new password in order to successfully change your current password.",
-            type: "error",
-            duration: 5000,
-          });
-          return false;
-        }
-
-        if (this.form.password !== this.form.confirmPassword) {
-          // eslint-disable-next-line no-undef
-          ElNotification({
-            title: "Notification",
-            message: "Passwords do not match.",
-            type: "error",
-            duration: 5000,
-          });
-          return false;
-        } 
-      } */
-      if (this.form?.password) {
-        if (
-          this.form?.password?.val().length == 0 ||
-          this.form?.confirmPassword?.val().length == 0 ||
-          this.form?.oldPassword?.val().length == 0
         ) {
           // eslint-disable-next-line no-undef
           ElNotification({
