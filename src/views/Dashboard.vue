@@ -319,10 +319,10 @@ export default {
               100;
       } else if (type == "uCoins") {
         value =
-          this.hostDashboard.currentMonthPerformance[0].total_ucoins >= 30000
+          this.hostDashboard.currentMonthPerformance[0].total_ucoins >= 5000
             ? 100
             : (this.hostDashboard.currentMonthPerformance[0].total_ucoins /
-                30000) *
+                5000) *
               100;
       }
       return value;
