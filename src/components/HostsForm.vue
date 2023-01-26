@@ -67,7 +67,7 @@ el-card(shadow='never' :body-style='{padding:0}')
         
           el-form-item(label='Birth date' prop="birthDate")
             .w-100(v-if="mode !== 'view'")
-              el-date-picker.w-100.birth-date(type="date"  format="MMMM D, YYYY" value-format="YYYY-MM-DD" v-model='modelValue.birthDate' @change="emitValue({ birthDate: $event })" name="birthDate" required)     
+              el-date-picker.w-100.birth-date(type="date"  format="MMMM D, YYYY" value-format="YYYY-MM-DD" v-model='modelValue.birthDate' @change="validateBirthDate" name="birthDate" required)     
             .w-100(v-else) {{ modelValue.birthDate }}
             
           el-form-item(label='Gender' prop="gender")
@@ -361,6 +361,21 @@ export default {
     },
   },
   methods: {
+    validateBirthDate(value) {
+      // eslint-disable-next-line no-constant-condition
+      if (new Date() > new Date(value)) {
+        this.emitValue({ birthDate: value });
+      } else {
+        this.emitValue({ birthDate: "" });
+        // eslint-disable-next-line no-undef
+        ElNotification({
+          title: "Notification",
+          message: "Birth date cannot be a future date.",
+          type: "error",
+          duration: 5000,
+        });
+      }
+    },
     emitValue(inputValue) {
       const updatedModelValue = { ...this.modelValue, ...inputValue };
       this.$emit("update:modelValue", updatedModelValue);

@@ -57,26 +57,11 @@ export default {
           type: "error",
           duration: 5000,
         });
+        this.isLoading = false;
         return false;
       }
 
       if (this.form?.password) {
-        if (
-          !this.form?.password?.trim() ||
-          !this.form?.confirmPassword?.trim() ||
-          !this.form?.oldPassword?.trim()
-        ) {
-          // eslint-disable-next-line no-undef
-          ElNotification({
-            title: "Notification",
-            message:
-              "You are required to provide your old password, new password, and confirmed new password in order to successfully change your current password.",
-            type: "error",
-            duration: 5000,
-          });
-          return false;
-        }
-
         if (this.form.password !== this.form.confirmPassword) {
           // eslint-disable-next-line no-undef
           ElNotification({
@@ -85,6 +70,7 @@ export default {
             type: "error",
             duration: 5000,
           });
+          this.isLoading = false;
           return false;
         }
       }
@@ -108,6 +94,30 @@ export default {
         }
       } else {
         try {
+          if (this.$route.query.action) {
+            if (
+              this.form?.password ||
+              this.form?.confirmPassword ||
+              this.form?.oldPassword
+            ) {
+              if (
+                !this.form?.password?.trim() ||
+                !this.form?.confirmPassword?.trim() ||
+                !this.form?.oldPassword?.trim()
+              ) {
+                // eslint-disable-next-line no-undef
+                ElNotification({
+                  title: "Notification",
+                  message:
+                    "You are required to provide your old password, new password, and confirmed new password in order to successfully change your current password.",
+                  type: "error",
+                  duration: 5000,
+                });
+                this.isLoading = false;
+                return false;
+              }
+            }
+          }
           const { data } = await apiClient.patch(
             `/admins/${this.$route.params.id}`,
             form,
@@ -116,6 +126,7 @@ export default {
             }
           );
           if (!this.$route.query.action) {
+            console.log("aaaaa");
             // eslint-disable-next-line no-undef
             ElNotification({
               title: "Notification",
@@ -125,6 +136,7 @@ export default {
             });
             this.$router.replace({ name: "Administrators" });
           } else {
+            console.log("bbbb");
             // eslint-disable-next-line no-undef
             ElNotification({
               title: "Notification",

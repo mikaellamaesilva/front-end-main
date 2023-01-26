@@ -1,5 +1,5 @@
 import { createStore } from "vuex";
-
+import { cloneDeep } from "lodash";
 export default createStore({
   state: {
     announcementOptions: [
@@ -71,8 +71,14 @@ export default createStore({
       "https://ik.imagekit.io/intelliemed/default-avatar_cunOc4PbJ.jpg?ik-sdk-version=javascript-1.4.3&updatedAt=1660126551582",
   },
   getters: {
-    validateForm: () => (form) => {
+    validateForm: () => (originalForm) => {
+      const form = cloneDeep(originalForm);
       let isComplete = true;
+      // const fieldBackup = {
+      //   avatarImageUrl: form.avatarImageUrl,
+      //   createdAt: form.createdAt,
+      //   adminLevel: form.adminLevel,
+      // };
       delete form.avatarImageUrl;
       delete form.hasConfirmedEmail;
       delete form.createdBy;

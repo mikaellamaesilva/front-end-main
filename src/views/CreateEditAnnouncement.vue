@@ -85,6 +85,7 @@ export default {
           type: "error",
           duration: 5000,
         });
+        this.isLoading = false;
         return false;
       }
 
