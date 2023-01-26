@@ -10,8 +10,8 @@ axios.defaults.headers = {
 };
 
 axios.defaults.timeout = 20000;
-// axios.defaults.baseURL = "https://e-see.azurewebsites.net/api/";
-axios.defaults.baseURL = "http://localhost:5000/api/";
+axios.defaults.baseURL = "https://e-see.azurewebsites.net/api/";
+// axios.defaults.baseURL = "http://localhost:5000/api/";
 
 const apiClient = axios.create();
 
